@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Minecraft Сервер</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Minecraft', sans-serif;
+      background-image: url("{% static 'minecraft/minecraftbackground.jpg' %}");
+      /* background-size: 64px 64px; */
+      overflow: hidden;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .overlay {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      width: 100vw;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background-image: url("{% static 'minecraft/tab.webp' %}");
+      padding: 20px;
+      border: 0px solid #3a3a3a;
+      box-shadow: 0 0 30px #000;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      font-size: 4vw;
+      color: #55ff55;
+      text-shadow: 2px 2px #000000;
+      margin: 0;
+    }
+
+    nav {
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    nav a {
+      background-color: #444;
+      color: #fff;
+      padding: 10px 16px;
+      border: 2px solid #222;
+      text-decoration: none;
+      transition: background 0.2s;
+      font-size: 4vw;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    nav a:hover {
+      background-color: #666;
+    }
+
+    main h2 {
+      color: #ffaa00;
+      margin: 15px 0 10px;
+      font-size: 5vw;
+    }
+
+    .ip {
+      color: #ffaa00;
+      font-weight: bold;
+    }
+
+    .status.online {
+      color: #00ff00;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 3vw;
+      color: #ccc;
+    }
+
+    @media (min-width: 600px) {
+      nav a {
+        font-size: 16px;
+      }
+      main h2 {
+        font-size: 24px;
+      }
+      footer {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <div class="overlay">
+    <div class="container">
+      <header>
+        <h1>MINECRAFT — сервер</h1>
+        <p>Ванільний <strong>Minecraft</strong> сервер</p>
+      </header>
+
+      <nav>
+        <a href="/">Головна</a>
+        <a href="#">Гравці</a>
+        <a href="#">Сервер</a>
+        <a href="#">Правила</a>
+        <a href="#">DISCORD</a>
+      </nav>
+
+      <main>
+        <h2>IP: <span class="ip">192.168.0.701:25565</span></h2>
+        <p>Версія: <strong>1.21.4</strong></p>
+        <p>Статус: <span class="status online">🟢 Онлайн</span></p>
+        <p>Гравців онлайн: <strong>200 / 50</strong></p>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 </p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    let particles = [];
+    const particleCount = 100;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2 + 1,
+          speedY: Math.random() * 0.5 + 0.2,
+          opacity: Math.random() * 0.5 + 0.3
+        });
+      }
+    }
+
+    function updateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of particles) {
+        p.y += p.speedY;
+        if (p.y > canvas.height) {
+          p.y = -10;
+          p.x = Math.random() * canvas.width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(updateParticles);
+    }
+
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      createParticles();
+    });
+
+    resizeCanvas();
+    createParticles();
+    updateParticles();
+  </script>
+</body>
+</html>

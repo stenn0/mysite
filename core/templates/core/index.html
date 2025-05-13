@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Портал</title>
+  <link href="{% static 'core/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="{% static 'vint/home-button.png' %}">
+  <style>
+    body {
+      background-image: url("{% static 'core/dark-bg-gradiend.jpg' %}");
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Зум фоток */
+    .card-img {
+      transition: transform 1s ease;
+    }
+    .card-img-overlay h2, .card-img-overlay p {
+      transition: font-size 0.2s ease;
+    }
+    .card:hover > .card-img {
+      transform: scale(1.03);
+    }
+    .card:hover > .card-img-overlay {
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+    }
+    .card:hover > .card-img-overlay h2{
+      font-size: 3rem;
+    }
+    .card:hover > .card-img-overlay p {
+      font-size: 1.25rem;
+    }
+</style>
+</head>
+<body>
+
+  <nav class="nav navbar pt-1 pb-1">
+    <div class="container-fluid">
+
+        <div class="nav-item">
+          <a class="nav-link" href="/">
+            <img src="{% static 'vint/home-button.png' %}" alt="Лого" width="30" height="30">
+          </a>
+        </div>
+
+        <div class="nav-item h3 mb-0">
+          <a class="nav-link disabled text-white" href="#">ПОРТАЛ</a>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-link disabled" href="#">
+            <img src="{% static 'core/log-in-btn-1.png' %}" alt="Увійти" width="30" height="30">
+          </a>
+        </div>
+
+      </div>
+  </nav>
+
+  <div class="container">
+    <div class="row" id="cards">
+
+      <!-- https://getbootstrap.com/docs/5.3/components/card/#image-overlays -->
+
+      <!--
+      | Клас    | Значення | rem                          |
+      | ------- | -------- | ---------------------------- |
+      | `-0`    | 0        | 0                            |
+      | `-1`    | xsmall   | 0.25rem                      |
+      | `-2`    | small    | 0.5rem                       |
+      | `-3`    | medium   | 1rem                         |
+      | `-4`    | large    | 1.5rem                       |
+      | `-5`    | xlarge   | 3rem                         |-->
+
+      <!-- bootstrap margin:   mt=top mb=bottom ms=left me=right -->
+      <!-- bootstrap padding:  pt=top pb=bottom ps=left pe=right-->
+
+      {% for card in cards %}
+      {% if not card.hide %}
+      <div class="col-sm-12 col-md-6">
+        <a href="{{card.url}}">
+
+          <!-- ДАНІ КАРТОК ТУТ: core/views.py - index.context[cards] -->
+
+          <div class="card text-bg-dark mb-3 mt-3 ms-1 me-1 border-0" style="
+            border-radius: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden; /* обрізка зумнотої фотки */
+          ">
+
+            <img src="{{card.img}}" class="card-img" alt="{{card.img_alt}}" style="border-radius: 1rem;">
+
+            <div class="card-img-overlay" style="padding: 0;">
+              <div class="ps-4 pt-3 pe-4" style="
+                background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0, 0, 0, 0));
+                /* backdrop-filter: blur(2px); */
+                /* -webkit-backdrop-filter: blur(2px); */
+                border-radius: 1rem 1rem 0 0;
+                width: 100%;
+                height: 50%;
+                margin: 0;
+              ">
+                <h2 class="card-title">{{card.title}}</h2>
+                <p class="card-text">{{card.desc}}</p>
+              </div>
+            </div>
+
+          </div>
+
+        </a>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+
+    </div>
+  </div>
+
+  <script>
+    // Показати текст якщо немає карток
+    const cardSet = document.getElementById('cards');
+    if (cardSet.children.length === 0) {
+      const emptyNotice = document.createElement('div');
+      emptyNotice.className = 'col-12 text-center text-white';
+      emptyNotice.style.marginTop = '20%';
+      emptyNotice.innerHTML = `
+        <div class="p-4 border-0 rounded-3 bg-dark bg-opacity-25" style="
+          backdrop-filter: blur(2px); 
+          max-width: 90%; 
+          margin: 0 auto;
+        ">
+          <h4 class="mt-1 mb-1">Немає доступних вкладок на порталі</h4>
+        </div>
+      `;
+      cardSet.appendChild(emptyNotice);
+    }
+  </script>
+  <script src="{% static 'core/bootstrap/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+</html>

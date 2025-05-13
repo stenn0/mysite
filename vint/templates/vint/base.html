@@ -1,0 +1,170 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title%}{% endblock %}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    /* Header */
+    * {
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .logo-button {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 16px;
+  color: #0ff;
+  background-color: transparent;
+  border: 3px solid #0ff;
+  border-radius: 8px;
+  padding: 6px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+  transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Наведення мишки */
+.logo-button:hover {
+  background-color: #0ff;
+  color: #000;
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(0, 255, 247, 0.8);
+  font-weight:initial;
+}
+
+/* Натискання */
+.logo-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.6);
+}
+
+    /* .logo-button {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 24px;
+  color: #0ff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  background-color: transparent;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.logo-button:hover {
+  background-color: #3df2ff;
+  color: #000;
+} */
+
+    body {
+      background-color: #0c0c0c;
+      color: #0ff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #111;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #0ff;
+    }
+
+    .logo {
+      font-size: 28px;
+      color: #0ff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #aaa;
+      transition: 0.3s;
+    }
+
+    nav a.active,
+    nav a:hover {
+      color: #0ff;
+    }
+
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      border-top: 2px solid #0ff;
+      color: #888;
+    }
+
+/* Кнопка "В портал" */
+            .home-button img {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      opacity: .5;
+    }
+
+    .home-button:hover img {
+      opacity: 1.0;
+    }
+
+  </style>
+
+  {% block style %}
+  {% endblock %}
+
+</head>
+<body>
+  <header>
+    <a href="{% url 'game' %}" class="logo-button">TANKI 10</a>
+    <nav>
+
+      <!-- Список елементів меню є у файлі /vint/context_processors.py -->
+      <ul>
+        {% for name, label in menu_items %}
+          <li>
+            <a class="{% if request.resolver_match.url_name == name %}active{% endif %}" href="{% url name %}">{{ label }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+
+    </nav>
+  </header>
+
+  {% block content %}
+  {% endblock %}
+
+  <footer>
+    &copy; 2025 Tanki 10 Fan Site. Усі права захищено.
+  </footer>
+
+  <a href="/" class="home-button"><img src="{% static 'vint/home-button.png' %}" alt="На портал" width="30" height="30"></a>
+
+</body>
+</html>

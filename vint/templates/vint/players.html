@@ -1,0 +1,129 @@
+{% extends 'vint/base.html' %}
+{% load static %}
+{% block title%}Гравці — Tanki 10{% endblock %}
+
+{% block style %}
+  <style>
+    main {
+      padding: 40px 20px;
+      flex-grow: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .status-box {
+      background: #111827;
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px #0ff3;
+      text-align: center;
+    }
+
+    .status {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .status.active {
+      color: #00ff00;
+    }
+
+    .status.inactive {
+      color: #ff3333;
+    }
+
+    .btn {
+      background-color: #0ff;
+      color: #000;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      border-bottom: 1px solid #0ff;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      color: #0ff;
+    }
+
+    ul.players {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.players li {
+      background: #1a1a1a;
+      padding: 10px;
+      margin-bottom: 5px;
+      border: 1px solid #0ff4;
+      border-radius: 5px;
+      transition: 0.2s;
+    }
+
+    ul.players li:hover {
+      background: #0ff1;
+    }
+
+    .status-label {
+     font-weight: bold;
+      color: #0ff;
+     margin-right: 10px;
+    }
+
+
+
+  </style>
+{% endblock %}
+
+{% block content %}
+  <main>
+    <h1>Список гравців</h1>
+
+    <div class="status-box">
+  <div class="status {% if server_active %}active{% else %}inactive{% endif %}" id="serverStatus">
+    <span class="status-label">Статус сервера:</span> {% if server_active %}Активний{% else %}Неактивний{% endif %}
+  </div>
+</div>
+
+      <!-- <button class="btn" onclick="toggleServer()">Змінити статус</button> -->
+      
+    </div>
+
+    <div class="section">
+      <h2>Гравці онлайн</h2>
+      <ul class="players" id="onlinePlayers">
+        {% for p in online_players %}
+          <li>{{ p }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Усі гравці</h2>
+        <ul class="players" id="allPlayers">
+          {% for p in all_players %}
+            <li>{{ p.username }}</li>
+          {% endfor %}
+        </ul>
+    </div>
+  </main>
+
+
+</body>
+</html>
+
+{% endblock %}

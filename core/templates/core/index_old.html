@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Портал</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --card-bg: #1a1a2e;
+      --accent: #7f5af0;
+      --accent-glow: 0 0 10px #7f5af0, 0 0 20px #7f5af0;
+      --text: #e0e0e0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--accent);
+      text-shadow: var(--accent-glow);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .card {
+      display: block;
+      background: var(--card-bg);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 0 10px rgba(127, 90, 240, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(127, 90, 240, 0.6);
+    }
+
+    .card h2 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      text-shadow: var(--accent-glow);
+    }
+
+    .card p {
+      color: #ccc;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Портал</h1>
+
+<div class="grid">
+  <a href="/vint/" class="card">
+    <h2>Сервер Vint</h2>
+    <p>Tanki 10</p>
+  </a>
+
+  <a href="/minecraft/" class="card">
+    <h2>Сервер Minecraft</h2>
+    <p>Текст</p>
+  </a>
+
+  <a href="/portfolio/" class="card">
+    <h2>Портфоліо</h2>
+    <p>Текст</p>
+  </a>
+
+  <a href="/files/" class="card">
+    <h2>Файли</h2>
+    <p>Заглушка</p>
+  </a>
+</div>
+
+</body>
+</html>

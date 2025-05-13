@@ -1,0 +1,188 @@
+{% extends "vint/base.html" %}
+
+{% block title%}Tanki 10 - Медіа{% endblock %}
+
+{% block style %}
+<style>
+  main {
+    padding: 40px 20px;
+    flex-grow: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .upload-form {
+    background: #111827;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 10px #0ff3;
+  }
+
+  .upload-form input,
+  .upload-form textarea,
+  .upload-form button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+
+  .upload-form input,
+  .upload-form textarea {
+    background: #1a1a1a;
+    color: #0ff;
+  }
+
+  .upload-form button {
+    background-color: #0ff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .media-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .media-item {
+    background: #1a1a1a;
+    border: 2px solid #0ff4;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px #0ff2;
+  }
+
+  .media-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .media-author {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 10px;
+  }
+
+  .media-preview {
+    margin-bottom: 10px;
+  }
+
+  .comments {
+    margin-top: 10px;
+  }
+
+  .comment {
+    background: #222;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .comment-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .comment-input input {
+    flex: 1;
+    background: #111;
+    color: #0ff;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+  }
+
+  .comment-input button {
+    padding: 8px 12px;
+    background: #0ff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <main>
+    <h1>Медіа</h1>
+
+    <div class="upload-form">
+      <h2>Завантажити скрін або відео</h2>
+      <input type="text" id="mediaTitle" placeholder="Назва публікації">
+      <input type="text" id="mediaAuthor" placeholder="Ваш нікнейм">
+      <input type="text" id="mediaURL" placeholder="URL на зображення або відео (YouTube, Imgur...)">
+      <button onclick="uploadMedia()">Завантажити</button>
+    </div>
+
+    <div class="media-list" id="mediaList">
+      <!-- Додається через JS -->
+    </div>
+  </main>
+
+  <script>
+    const mediaList = document.getElementById('mediaList');
+
+    function uploadMedia() {
+      const title = document.getElementById('mediaTitle').value;
+      const author = document.getElementById('mediaAuthor').value;
+      const url = document.getElementById('mediaURL').value;
+
+      if (!title || !author || !url) {
+        alert('Будь ласка, заповніть всі поля.');
+        return;
+      }
+
+      const div = document.createElement('div');
+      div.className = 'media-item';
+      div.innerHTML = `
+        <div class="media-title">${title}</div>
+        <div class="media-author">Автор: ${author}</div>
+        <div class="media-preview">${url.includes("youtube") ?
+          `<iframe width="100%" height="315" src="${url.replace("watch?v=", "embed/")}" frameborder="0" allowfullscreen></iframe>` :
+          `<img src="${url}" alt="Media" style="max-width: 100%; border-radius: 5px;">`}</div>
+        <div class="comments" id="comments-${Date.now()}">
+          <strong>Коментарі:</strong>
+          <div class="comment-input">
+            <input type="text" placeholder="Ваш коментар">
+            <button onclick="addComment(this)">Надіслати</button>
+          </div>
+        </div>
+      `;
+      mediaList.prepend(div);
+
+      document.getElementById('mediaTitle').value = '';
+      document.getElementById('mediaAuthor').value = '';
+      document.getElementById('mediaURL').value = '';
+    }
+
+    function addComment(btn) {
+      const input = btn.previousElementSibling;
+      const commentText = input.value.trim();
+      if (commentText === '') return;
+
+      const comment = document.createElement('div');
+      comment.className = 'comment';
+      comment.textContent = commentText;
+
+      const commentsContainer = btn.closest('.comments');
+      commentsContainer.insertBefore(comment, commentsContainer.querySelector('.comment-input'));
+
+      input.value = '';
+    }
+  </script>
+{% endblock %}

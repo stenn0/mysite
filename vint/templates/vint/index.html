@@ -1,0 +1,67 @@
+{% extends 'vint/base.html' %}
+
+{% block style %}
+<style>
+  .hero {
+    background: rgb(20, 20, 20) no-repeat center center/cover;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-content {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .hero-content .btn {
+    background: #00ffcc;
+    color: #000;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .hero-content .btn:hover {
+    background: #00ccaa;
+  }
+
+  section {
+    padding: 40px 20px;
+    text-align: center;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Поринь у світ битв танків</h1>
+      <button class="btn">Download</button>
+    </div>
+  </div>
+
+  <section>
+    <h2>Про гру</h2>
+    <p>Tanki 10 — це динамічна PvP-гра, яка дозволяє гравцям керувати бойовими танками у футуристичному стилі. Бери участь у битвах, вдосконалюй своє озброєння та домінуй на полі бою!</p>
+  </section>
+{% endblock %}
